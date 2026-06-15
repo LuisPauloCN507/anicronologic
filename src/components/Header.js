@@ -10,9 +10,9 @@ export default function Header() {
   const router = useRouter();
 
   const handleSearch = (e) => {
-    e.preventDefault(); // Evita que a página recarregue ao dar Enter
+    e.preventDefault(); 
     if (query.trim()) {
-      router.push(`/search?q=${query}`); // Redireciona para a página de busca
+      router.push(`/search?q=${query}`); 
     }
   };
 
@@ -46,12 +46,12 @@ export default function Header() {
         </form>
 
         {/* Navegação */}
-        <nav>
+        <nav className="flex items-center gap-4">
           <Link href="/" className="text-sm font-medium text-zinc-400 hover:text-zinc-50 transition-colors">
             Início
           </Link>
-          <Link href="/explore" className="text-sm font-medium text-zinc-400 hover:text-zinc-50 transition-colors">
-            Explorar
+          <Link href="/favorites" className="text-sm font-medium text-zinc-400 hover:text-indigo-500 transition-colors">
+            Minha Lista
           </Link>
         </nav>
         
