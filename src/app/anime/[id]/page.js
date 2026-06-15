@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Image from "next/image";
-import { Star, Calendar, PlayCircle } from "lucide-react";
+import Link from "next/link";
+import { Star, Calendar, PlayCircle, BookOpen } from "lucide-react";
 
 // Busca os detalhes completos de um anime específico pelo ID
 async function getAnimeDetails(id) {
@@ -10,7 +11,7 @@ async function getAnimeDetails(id) {
 }
 
 export default async function AnimeDetails({ params }) {
-  // Lendo o ID da URL (Next.js 15 exige o await aqui também)
+  // Lendo o ID da URL
   const resolvedParams = await params;
   const anime = await getAnimeDetails(resolvedParams.id);
 
@@ -60,6 +61,42 @@ export default async function AnimeDetails({ params }) {
             </p>
           </div>
         </div>
+
+        {/* Bloco de Ordem Cronológica e Relações */}
+        {anime.relations && anime.relations.length > 0 && (
+          <div className="mb-12">
+            <h3 className="text-2xl font-bold text-zinc-50 mb-6">Ordem Cronológica e Relações</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {anime.relations.map((relation, index) => (
+                <div key={index} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 flex flex-col">
+                  <h4 className="text-indigo-500 font-bold mb-3 border-b border-zinc-800 pb-2">
+                    {relation.relation}
+                  </h4>
+                  <ul className="space-y-3 flex-1">
+                    {relation.entry.map((entry) => (
+                      <li key={entry.mal_id}>
+                        {entry.type === "anime" ? (
+                          <Link 
+                            href={`/anime/${entry.mal_id}`} 
+                            className="group flex items-start gap-2 text-zinc-300 hover:text-indigo-400 transition-colors"
+                          >
+                            <PlayCircle size={16} className="mt-0.5 shrink-0 group-hover:text-indigo-400 text-zinc-500 transition-colors" />
+                            <span className="text-sm font-medium leading-snug">{entry.name}</span>
+                          </Link>
+                        ) : (
+                          <div className="flex items-start gap-2 text-zinc-500">
+                            <BookOpen size={16} className="mt-0.5 shrink-0" />
+                            <span className="text-sm leading-snug">{entry.name} <span className="text-xs opacity-70">({entry.type})</span></span>
+                          </div>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Bloco Inferior: Trailer */}
         {anime.trailer?.embed_url && (
