@@ -1,9 +1,13 @@
 import { Star } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function AnimeCard({ anime }) {
   return (
-    <div className="group relative bg-zinc-900 rounded-xl border border-zinc-800 overflow-hidden hover:border-indigo-500 transition-colors cursor-pointer flex flex-col h-full">
+    <Link 
+      href={`/anime/${anime.mal_id}`} 
+      className="group relative bg-zinc-900 rounded-xl border border-zinc-800 overflow-hidden hover:border-indigo-500 transition-colors cursor-pointer flex flex-col h-full"
+    >
       {/* Imagem de Capa */}
       <div className="relative aspect-3/4 overflow-hidden bg-zinc-800">
         <Image 
@@ -29,6 +33,6 @@ export default function AnimeCard({ anime }) {
           {anime.year || "Clássico"} • {anime.episodes ? `${anime.episodes} eps` : "Lançamento"}
         </p>
       </div>
-    </div>
+    </Link>
   );
 }
